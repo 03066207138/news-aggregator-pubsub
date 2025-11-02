@@ -1,157 +1,52 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "./App.css";
-
-// 🌍 Backend URL — auto switch between local & Render
-const BACKEND =
-  process.env.REACT_APP_BACKEND_URL ||
-  "https://news-aggregator-backend.onrender.com";
+import React, { useState } from 'react';
+import './App.css';
+import NewsAggregator from './components/NewsAggregator';
 
 function App() {
-  const [topic, setTopic] = useState("general");
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [source, setSource] = useState("frontend");
-  const [newsList, setNewsList] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [selectedTopic, setSelectedTopic] = useState('general'); // Default topic
+  const [searchQuery, setSearchQuery] = useState(''); // Search query
 
-  // 📰 Fetch news from backend
-  const fetchNews = async () => {
-    setLoading(true);
-    setError("");
-    try {
-      const { data } = await axios.get(
-        `${BACKEND}/subscribe?topic=${topic}&limit=10`
-      );
-      setNewsList(data.messages || []);
-    } catch (err) {
-      console.error("Error fetching news:", err);
-      setError("Failed to load news. Please check backend connection.");
-    } finally {
-      setLoading(false);
-    }
+  // Handle topic selection from the sidebar
+  const handleTopicChange = (topic) => {
+    setSelectedTopic(topic);
   };
 
-  // 🕒 Auto-fetch whenever topic changes
-  useEffect(() => {
-    fetchNews();
-  }, [topic]);
-
-  // 🗞️ Publish new article
-  const publishNews = async () => {
-    if (!title || !content) {
-      alert("Please enter both title and content.");
-      return;
-    }
-    try {
-      await axios.post(`${BACKEND}/publish`, {
-        topic,
-        title,
-        content,
-        source,
-      });
-      alert("✅ News published successfully!");
-      setTitle("");
-      setContent("");
-      fetchNews();
-    } catch (err) {
-      console.error("Error publishing news:", err);
-      alert("❌ Failed to publish. Check backend or RabbitMQ connection.");
-    }
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
   };
-
-  // 🔍 Filter news by search query
-  const filteredNews = newsList.filter(
-    (n) =>
-      n.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      n.content?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   return (
     <div className="App">
-      {/* 🧭 Navbar */}
+      {/* Navbar */}
       <div className="navbar">
-        <div className="logo">📰 News Aggregator</div>
-        <input
-          type="text"
-          className="search-box"
-          placeholder="Search news..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+        <div className="logo">News Aggregator</div>
+      
       </div>
 
-      {/* 📚 Sidebar + Main */}
-      <div className="main-layout">
-        <div className="sidebar">
-          <h3>Topics</h3>
-          {["general", "sports", "technology", "business", "health", "science", "entertainment"].map(
-            (t) => (
-              <div
-                key={t}
-                className={`topic ${topic === t ? "active" : ""}`}
-                onClick={() => setTopic(t)}
-              >
-                {t.charAt(0).toUpperCase() + t.slice(1)}
-              </div>
-            )
-          )}
-        </div>
+      {/* Sidebar + Content */}
+      {/* <div style={{ display: 'flex', flexDirection: 'row', height: 'calc(100vh - 50px)' }}> */}
+        {/* Sidebar */}
+        {/* <div className="sidebar">
+          <ul>
+            <li onClick={() => handleTopicChange('general')}>Home</li>
+            <li onClick={() => handleTopicChange('sports')}>Sports</li>
+            <li onClick={() => handleTopicChange('technology')}>Technology</li>
+            <li onClick={() => handleTopicChange('business')}>Business</li>
+            <li onClick={() => handleTopicChange('entertainment')}>Entertainment</li>
+            <li onClick={() => handleTopicChange('health')}>Health</li>
+          </ul>
+        </div> */}
 
-        <div className="content">
-          {/* 🗞️ Publisher Form */}
-          <div className="publisher-form">
-            <h2>Publish News</h2>
-            <input
-              type="text"
-              placeholder="Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <textarea
-              placeholder="Content"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Source (optional)"
-              value={source}
-              onChange={(e) => setSource(e.target.value)}
-            />
-            <button onClick={publishNews}>Publish</button>
-          </div>
+        {/* Main Content */}
+        {/* <div className="content"> */}
+          <NewsAggregator selectedTopic={selectedTopic} searchQuery={searchQuery} />
+        {/* </div> */}
+      {/* </div> */}
 
-          {/* 📰 News Feed */}
-          <div className="news-section">
-            <h2>
-              {topic.charAt(0).toUpperCase() + topic.slice(1)} News
-            </h2>
-            {loading && <p>Loading news...</p>}
-            {error && <p className="error">{error}</p>}
-            {!loading && filteredNews.length === 0 && (
-              <p>No news found for this topic.</p>
-            )}
-            <div className="news-grid">
-              {filteredNews.map((n, i) => (
-                <div className="news-card" key={i}>
-                  <h3>{n.title || "Untitled"}</h3>
-                  <p>{n.content}</p>
-                  <small>
-                    Source: {n.source || "Unknown"} | Topic: {n.topic}
-                  </small>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ⚓ Footer */}
+      {/* Footer */}
       <footer>
-        <p>© {new Date().getFullYear()} News Aggregator | Powered by Flask + RabbitMQ</p>
+        <div className="footer-content">© {new Date().getFullYear()} News Aggregator. All rights reserved.</div>
       </footer>
     </div>
   );
