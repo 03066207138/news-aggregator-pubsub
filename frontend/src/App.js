@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import './App.css';
 import NewsAggregator from './components/NewsAggregator';
 
+// 🌍 Backend URL — automatically switches between local & Render
+const BACKEND =
+  process.env.REACT_APP_BACKEND_URL ||
+  'https://news-aggregator-backend.onrender.com'; // 🔗 Replace with your actual Render backend URL
+
 function App() {
   const [selectedTopic, setSelectedTopic] = useState('general'); // Default topic
   const [searchQuery, setSearchQuery] = useState(''); // Search query
@@ -20,14 +25,19 @@ function App() {
     <div className="App">
       {/* Navbar */}
       <div className="navbar">
-        <div className="logo">News Aggregator</div>
-      
+        <div className="logo">📰 News Aggregator</div>
+        <input
+          type="text"
+          placeholder="Search news..."
+          className="search-box"
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
       </div>
 
       {/* Sidebar + Content */}
-      {/* <div style={{ display: 'flex', flexDirection: 'row', height: 'calc(100vh - 50px)' }}> */}
-        {/* Sidebar */}
-        {/* <div className="sidebar">
+      <div className="layout">
+        <div className="sidebar">
           <ul>
             <li onClick={() => handleTopicChange('general')}>Home</li>
             <li onClick={() => handleTopicChange('sports')}>Sports</li>
@@ -36,17 +46,24 @@ function App() {
             <li onClick={() => handleTopicChange('entertainment')}>Entertainment</li>
             <li onClick={() => handleTopicChange('health')}>Health</li>
           </ul>
-        </div> */}
+        </div>
 
-        {/* Main Content */}
-        {/* <div className="content"> */}
-          <NewsAggregator selectedTopic={selectedTopic} searchQuery={searchQuery} />
-        {/* </div> */}
-      {/* </div> */}
+        {/* Main News Feed */}
+        <div className="content">
+          {/* 🧠 Pass backend URL to NewsAggregator */}
+          <NewsAggregator
+            backendUrl={BACKEND}
+            selectedTopic={selectedTopic}
+            searchQuery={searchQuery}
+          />
+        </div>
+      </div>
 
       {/* Footer */}
       <footer>
-        <div className="footer-content">© {new Date().getFullYear()} News Aggregator. All rights reserved.</div>
+        <div className="footer-content">
+          © {new Date().getFullYear()} News Aggregator. All rights reserved.
+        </div>
       </footer>
     </div>
   );
