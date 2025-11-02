@@ -35,15 +35,14 @@ function App() {
         />
       </div>
 
-        {/* Main News Feed */}
-        <div className="content">
-          {/* 🧠 Pass backend URL to NewsAggregator */}
-          <NewsAggregator
-            backendUrl={BACKEND}
-            selectedTopic={selectedTopic}
-            searchQuery={searchQuery}
-          />
-        </div>
+      {/* Main News Feed */}
+      <div className="content">
+        {/* 🧠 Pass backend URL to NewsAggregator */}
+        <NewsAggregator
+          backendUrl={BACKEND}
+          selectedTopic={selectedTopic}
+          searchQuery={searchQuery}
+        />
       </div>
 
       {/* Footer */}
