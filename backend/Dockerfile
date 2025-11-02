@@ -3,7 +3,7 @@
 # =============================================
 FROM python:3.11-slim
 
-WORKDIR /app
+WORKDIR /backend
 
 # Install dependencies
 COPY requirements.txt .
