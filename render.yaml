@@ -18,3 +18,13 @@ services:
   - type: rabbitmq
     name: rabbitmq-service
     plan: free
+
+  - type: static
+    name: news-aggregator-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: frontend/build
+    rootDir: frontend
+    envVars:
+      - key: REACT_APP_BACKEND_URL
+        value: https://news-aggregator-backend.onrender.com
