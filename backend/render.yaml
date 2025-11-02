@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: news-aggregator-backend
+    env: python
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: python backend/app.py
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: RABBITMQ_URL
+        value: amqp://guest:guest@your-cloud-rabbitmq:5672/%2F
+      - key: NEWS_EXCHANGE
+        value: news_topic
