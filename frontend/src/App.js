@@ -35,19 +35,6 @@ function App() {
         />
       </div>
 
-      // {/* Sidebar + Content */}
-      // <div className="layout">
-      //   <div className="sidebar">
-      //     <ul>
-      //       <li onClick={() => handleTopicChange('general')}>Home</li>
-      //       <li onClick={() => handleTopicChange('sports')}>Sports</li>
-      //       <li onClick={() => handleTopicChange('technology')}>Technology</li>
-      //       <li onClick={() => handleTopicChange('business')}>Business</li>
-      //       <li onClick={() => handleTopicChange('entertainment')}>Entertainment</li>
-      //       <li onClick={() => handleTopicChange('health')}>Health</li>
-      //     </ul>
-      //   </div>
-
         {/* Main News Feed */}
         <div className="content">
           {/* 🧠 Pass backend URL to NewsAggregator */}
