@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: news-aggregator-backend
+    env: python
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: gunicorn app:app --chdir backend --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: RABBITMQ_URL
+        fromService:
+          type: rabbitmq
+          name: rabbitmq-service
+      - key: NEWS_EXCHANGE
+        value: news_topic
+
+  - type: rabbitmq
+    name: rabbitmq-service
+    plan: free
