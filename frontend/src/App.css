@@ -142,3 +142,76 @@ footer {
   padding: 10px 0;
   font-size: 14px;
 }
+/* 🌐 Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 🧭 Base Font & Layout */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #f8fafc;
+  color: #1e293b;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* 🧱 Code Blocks */
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  background: #f1f5f9;
+  padding: 4px 6px;
+  border-radius: 4px;
+  color: #1e293b;
+  word-break: break-word;
+}
+
+/* 📱 Responsive Typography */
+h1, h2, h3 {
+  line-height: 1.2;
+}
+p {
+  font-size: 1rem;
+}
+
+/* 🖥️ Mobile Scaling */
+@media (max-width: 768px) {
+  body {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  .container {
+    padding: 10px;
+  }
+}
+
+/* 📱 Small Devices */
+@media (max-width: 480px) {
+  body {
+    font-size: 0.9rem;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  button {
+    width: 100%;
+    font-size: 0.95rem;
+  }
+}
